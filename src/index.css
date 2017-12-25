@@ -1,0 +1,17 @@
+.list-group-item {
+  padding: 20px;
+}
+
+.badge {
+  margin-top: 7px;
+}
+.AddressBar {
+  display: flex;
+}
+
+.AddressButtons {
+  flex-basis: 90px;
+}
+.AddressField {
+  flex-grow: 1;
+}

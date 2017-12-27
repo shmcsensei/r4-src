@@ -9,14 +9,22 @@ const enhance = withHandlers({
   testFn: () => e => console.log('Hello'),
 });
 
-const Post = () => {
-  <a href={() => {}} className="list-group-item">
-    <span className="badge">14</span>
-    <h3 className="list-group-item-heading">List group item heading</h3>
-  </a>;
+const Post = key => {
+  return (
+    <a href="/" className="list-group-item">
+      <h3 className="list-group-item-heading">List group item heading</h3>
+    </a>
+  );
 };
 
-const Posts = () => {};
+const Posts = () => {
+  let data = Array.from(Array(10).keys());
+  return (
+    <div className="row">
+      <div className="list-group">{data.map((_, i) => <Post key={i} />)}</div>
+    </div>
+  );
+};
 
 const App = enhance(({ testFn }) => (
   <div className="container">
@@ -58,32 +66,7 @@ const App = enhance(({ testFn }) => (
         </form>
       </div>
     </div>
-    <div className="row">
-      <div className="list-group">
-        <a href="" className="list-group-item">
-          <span className="badge">14</span>
-          <h3 className="list-group-item-heading">List group item heading</h3>
-        </a>
-
-        <a href="" className="list-group-item">
-          <span className="badge">14</span>
-          <h3 className="list-group-item-heading">List group item heading</h3>
-          <p className="list-group-item-text">
-            Donec id elit non mi porta gravida at eget metus. Maecenas sed diam
-            eget risus varius blandit.
-          </p>
-        </a>
-
-        <a href="" className="list-group-item">
-          <span className="badge">14</span>
-          <h3 className="list-group-item-heading">List group item heading</h3>
-          <p className="list-group-item-text">
-            Donec id elit non mi porta gravida at eget metus. Maecenas sed diam
-            eget risus varius blandit.
-          </p>
-        </a>
-      </div>
-    </div>
+    <Posts />
   </div>
 ));
 // ========================================

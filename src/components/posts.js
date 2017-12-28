@@ -1,18 +1,19 @@
 import React from 'react';
 
-export const Post = key => {
+export const Post = ({ title }) => {
   return (
     <a href="/" className="list-group-item">
-      <h3 className="list-group-item-heading">List group item heading</h3>
+      <h3 className="list-group-item-heading">{title}</h3>
     </a>
   );
 };
 
-export const Posts = data => {
-  data = Array.from(Array(10).keys());
+export const Posts = ({ postsData }) => {
   return (
     <div className="row">
-      <div className="list-group">{data.map((_, i) => <Post key={i} />)}</div>
+      <div className="list-group">
+        {postsData.map((postInfo, i) => <Post key={i} title={postInfo} />)}
+      </div>
     </div>
   );
 };

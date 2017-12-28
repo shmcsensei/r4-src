@@ -3,19 +3,22 @@ import './index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { withHandlers } from 'recompose';
 import { Posts } from './components/posts';
 import { AddressBar } from './components/addressBar';
 
-import { Titles } from './data';
+import { compose, withHandlers, withState } from 'recompose';
+import { postsData } from './data';
 
-console.log(Titles);
+console.log(postsData);
 
-const enhance = withHandlers({
-  homeClick: () => e => console.log('Hello'),
-});
+const addFun = compose(
+  withState('postsData', 'setPostData', postsData),
+  withHandlers({
+    homeClick: () => e => console.log('Hello'),
+  }),
+);
 
-const App = enhance(({ homeClick }) => (
+const App = addFun(({ homeClick, postsData }) => (
   <div className="container">
     <div className="row">
       <div className="page-header">
@@ -25,7 +28,7 @@ const App = enhance(({ homeClick }) => (
       </div>
     </div>
     <AddressBar homeClick={homeClick} />
-    <Posts />
+    <Posts postsData={postsData} />
   </div>
 ));
 // ========================================

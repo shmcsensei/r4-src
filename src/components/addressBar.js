@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AddressBar = ({ homeClick }) => (
+export const AddressBar = ({ home, refresh }) => (
   <div className="row AddressBar">
     <div
       className="AddressButtons btn-group"
@@ -11,11 +11,16 @@ export const AddressBar = ({ homeClick }) => (
         type="button"
         className="btn btn-default"
         aria-label="Home"
-        onClick={homeClick}
+        onClick={home}
       >
         <span className="glyphicon glyphicon-home" aria-hidden="true" />
       </button>
-      <button type="button" className="btn btn-default" aria-label="Refresh">
+      <button
+        type="button"
+        className="btn btn-default"
+        aria-label="Refresh"
+        onClick={refresh}
+      >
         <span className="glyphicon glyphicon-refresh" aria-hidden="true" />
       </button>
     </div>

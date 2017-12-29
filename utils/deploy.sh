@@ -40,7 +40,7 @@ printf "\n\e[32mAdding new files ...\e[0m\n"
 cd "${REPOPATH}"
 echo "${REPOPATH}"
 git add -A
-git commit -m "Updated from a build of the 'r4-source' repository. https://github.com/SimonChong/r4-src/tree/${HASH}"
+git commit -m "Built from the 'r4-src' repository. https://github.com/SimonChong/r4-src/commit/${HASH}"
 
 # Push
 printf "\n\e[32mPushing files to the public ...\e[0m\n"

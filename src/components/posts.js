@@ -12,7 +12,7 @@ export const Posts = ({ posts }) => {
   return (
     <div className="row">
       <div className="list-group">
-        {posts.map((post, i) => <Post key={i} post={post} />)}
+        {posts && posts.map(post => <Post key={post.id} post={post} />)}
       </div>
     </div>
   );

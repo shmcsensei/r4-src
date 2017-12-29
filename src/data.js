@@ -2,13 +2,12 @@ import dataSample from './data-sample';
 
 let _filterData = data => {
   let { data: { children: posts } } = data;
-  return {
-    posts: posts.map(({ data: { title } }) => {
-      return {
-        title,
-      };
-    }),
-  };
+  return posts.map(({ data: { title, id } }) => {
+    return {
+      id,
+      title,
+    };
+  });
 };
 
 export const _postsData = _filterData(dataSample);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const AddressBar = ({ home, refresh }) => (
+export const AddressBar = ({ home, refresh, address, addressUpdater }) => (
   <div className="row AddressBar">
     <div
       className="AddressButtons btn-group"
@@ -25,13 +25,15 @@ export const AddressBar = ({ home, refresh }) => (
       </button>
     </div>
     <div className="AddressField">
-      <form>
+      <form onSubmit={refresh}>
         <div className="form-group">
           <input
             type="text"
             className="form-control"
             id="RedditAddress"
             placeholder="Reddit Address e.g '/r/reactjs' or 'https://www.reddit.com/r/reactjs/'"
+            value={address}
+            onChange={addressUpdater}
           />
         </div>
       </form>

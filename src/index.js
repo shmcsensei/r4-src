@@ -9,41 +9,68 @@ import { AddressBar } from './components/addressBar';
 import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { fetchData } from './data';
 
-const homeAddr = 'https://www.reddit.com/.json';
+const homeAddr = 'https://www.reddit.com/';
 
 const withData = lifecycle({
-  state: { loading: true, posts: [] },
   componentDidMount() {
-    fetchData(homeAddr).then(data =>
-      this.setState({ loading: false, ...data }),
-    );
+    fetchData(homeAddr + '.json').then(data => {
+      this.props.setRefresh(false);
+      this.props.setPosts(data);
+    });
   },
 });
 
+const reload = (address, setRefresh, setPosts) => {
+  setRefresh(true);
+  fetchData(address + '.json').then(data => {
+    setRefresh(false);
+    setPosts(data);
+  });
+};
+
 const addFun = compose(
+  withState('posts', 'setPosts', []),
+  withState('address', 'setAddress', homeAddr),
   withState('refreshing', 'setRefresh', true),
-  withHandlers({
-    home: () => e => console.log('Hello'),
-    refresh: () => e => console.log('World'),
-  }),
   withData,
+  withHandlers({
+    refresh: ({ address, setRefresh, setPosts }) => e => {
+      e.preventDefault();
+      reload(address, setRefresh, setPosts);
+    },
+    home: ({ setAddress, setRefresh, setPosts }) => e => {
+      e.preventDefault();
+      setAddress(homeAddr);
+      reload(homeAddr, setRefresh, setPosts);
+    },
+    addressUpdater: ({ setAddress }) => e => {
+      setAddress(e.target.value);
+    },
+  }),
 );
 
-const App = addFun(({ home, refresh, posts }) => {
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="page-header">
-          <h1>
-            R4 <small>The React Reddit Recompose Reader</small>
-          </h1>
+const App = addFun(
+  ({ home, refresh, refreshing, posts, address, addressUpdater }) => {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="page-header">
+            <h1>
+              R4 <small>The React Reddit Recompose Reader</small>
+            </h1>
+          </div>
         </div>
+        <AddressBar
+          home={home}
+          refresh={refresh}
+          address={address}
+          addressUpdater={addressUpdater}
+        />
+        {refreshing ? 'Loading' : <Posts posts={posts} />}
       </div>
-      <AddressBar home={home} refresh={refresh} />
-      <Posts posts={posts} />
-    </div>
-  );
-});
+    );
+  },
+);
 
 // ========================================
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -1,16 +1,16 @@
-import dataSample from './data-sample';
+// import dataSample from './data-sample';
+// export const _postsData = _filterData(dataSample);
 
 let _filterData = data => {
   let { data: { children: posts } } = data;
-  return posts.map(({ data: { title, id } }) => {
+  return posts.map(({ data: { title, id, permalink } }) => {
     return {
       id,
       title,
+      permalink,
     };
   });
 };
-
-export const _postsData = _filterData(dataSample);
 
 export const fetchData = address => {
   return new Promise((res, rej) => {

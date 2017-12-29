@@ -15,3 +15,7 @@
 .AddressField {
   flex-grow: 1;
 }
+
+button:focus {
+  outline: 0 !important;
+}

@@ -7,22 +7,22 @@ export const AddressBar = ({ home, refresh, address, addressUpdater }) => (
       role="group"
       aria-label="Address Actions"
     >
-      <button
+      <a
         type="button"
         className="btn btn-default"
         aria-label="Home"
         onClick={home}
       >
         <span className="glyphicon glyphicon-home" aria-hidden="true" />
-      </button>
-      <button
+      </a>
+      <a
         type="button"
         className="btn btn-default"
         aria-label="Refresh"
         onClick={refresh}
       >
         <span className="glyphicon glyphicon-refresh" aria-hidden="true" />
-      </button>
+      </a>
     </div>
     <div className="AddressField">
       <form onSubmit={refresh}>

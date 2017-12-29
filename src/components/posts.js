@@ -2,8 +2,11 @@ import React from 'react';
 
 export const Post = ({ post }) => {
   return (
-    <a href="/" className="list-group-item">
-      <h3 className="list-group-item-heading">{post.title}</h3>
+    <a
+      href={'https://www.reddit.com/' + post.permalink}
+      className="list-group-item"
+    >
+      <h4 className="list-group-item-heading">{post.title}</h4>
     </a>
   );
 };

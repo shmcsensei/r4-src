@@ -2,6 +2,9 @@
 // export const _postsData = _filterData(dataSample);
 
 let _filterData = data => {
+  if (!data.data || !data.data.children) {
+    return [];
+  }
   let { data: { children: posts } } = data;
   return posts.map(({ data: { title, id, permalink } }) => {
     return {
@@ -21,12 +24,18 @@ export const fetchData = address => {
       if (this.readyState === 4) {
         if (this.status >= 200 && this.status < 400) {
           // Success!
-          let data = _filterData(JSON.parse(this.responseText));
+          let data = [];
+          try {
+            data = _filterData(JSON.parse(this.responseText));
+          } catch (e) {
+            rej('Data returned not expected.');
+          } finally {
+            res(data);
+          }
           // console.log(data);
-          res(data);
         } else {
           // Error :(
-          rej([]);
+          rej('URL Error');
           console.log('REJECTED!');
         }
       }

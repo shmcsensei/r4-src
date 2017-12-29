@@ -21,17 +21,22 @@ const withData = lifecycle({
 });
 
 const reload = (address, setRefresh, setPosts) => {
-  setRefresh(true);
-  fetchData(address + '.json').then(data => {
-    setRefresh(false);
-    setPosts(data);
-  });
+  setRefresh('Loading');
+  fetchData(address + '.json')
+    .then(data => {
+      setRefresh(false);
+      setPosts(data);
+    })
+    .catch(reson => {
+      setRefresh('Error loading URL');
+      setPosts([]);
+    });
 };
 
 const addFun = compose(
   withState('posts', 'setPosts', []),
   withState('address', 'setAddress', homeAddr),
-  withState('refreshing', 'setRefresh', true),
+  withState('refreshing', 'setRefresh', 'Loading'),
   withData,
   withHandlers({
     refresh: ({ address, setRefresh, setPosts }) => e => {
@@ -47,6 +52,12 @@ const addFun = compose(
       setAddress(e.target.value);
     },
   }),
+);
+
+const Msg = ({ msg }) => (
+  <div className="row">
+    <div className="text-center">{msg}</div>
+  </div>
 );
 
 const App = addFun(
@@ -66,7 +77,7 @@ const App = addFun(
           address={address}
           addressUpdater={addressUpdater}
         />
-        {refreshing ? 'Loading' : <Posts posts={posts} />}
+        {refreshing ? <Msg msg={refreshing} /> : <Posts posts={posts} />}
       </div>
     );
   },

@@ -6,21 +6,13 @@ import ReactDOM from 'react-dom';
 import { Posts } from './components/posts';
 import { AddressBar } from './components/addressBar';
 
-import { compose, withHandlers, withState, lifecycle } from 'recompose';
+import { compose, withHandlers, withState } from 'recompose';
+import { onMounted } from './lib/onMounted';
 import { fetchData } from './data';
 
 const homeAddr = 'https://www.reddit.com';
 const homeAddrS = homeAddr + '/';
 const startAddr = window.localStorage.address || homeAddrS;
-
-const withData = lifecycle({
-  componentDidMount() {
-    fetchData(startAddr + '.json').then(data => {
-      this.props.setMsg(false);
-      this.props.setPosts(data);
-    });
-  },
-});
 
 const reload = ({ address, setAddress, setMsg, setPosts }) => {
   setMsg('Loading');
@@ -49,7 +41,12 @@ const addFun = compose(
   withState('posts', 'setPosts', []),
   withState('address', 'setAddress', startAddr),
   withState('msg', 'setMsg', 'Loading'),
-  withData,
+  onMounted(({ setMsg, setPosts }) => {
+    fetchData(startAddr + '.json').then(data => {
+      setMsg(false);
+      setPosts(data);
+    });
+  }),
   withHandlers({
     refresh: props => e => {
       e.preventDefault();

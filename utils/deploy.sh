@@ -19,7 +19,7 @@ rm -rf "${REPOPATH}"
 
 # Checkout production stuff
 printf "\n\e[32mCloning repo ...\e[0m\n"
-git clone git@github.com:SimonChong/r4.git "${REPOPATH}"
+git clone git@github.com:shmcsensei/r4.git "${REPOPATH}"
 
 # Empty the repo
 printf "\n\e[32mCleaning up repo ...\e[0m\n"

@@ -1,8 +1,9 @@
 {
   "name": "R4",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "http://simonchong.github.io/r4",
+  "author": "Simon Chong",
+  "license": "MIT",
+  "homepage": "http://shmcsensei.github.io/r4",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "react": "^16.2.0",

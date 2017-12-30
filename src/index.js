@@ -9,7 +9,9 @@ import { AddressBar } from './components/addressBar';
 import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { fetchData } from './data';
 
-const startAddr = window.localStorage.address || 'https://www.reddit.com/';
+const homeAddr = 'https://www.reddit.com';
+const homeAddrS = homeAddr + '/';
+const startAddr = window.localStorage.address || homeAddrS;
 
 const withData = lifecycle({
   componentDidMount() {
@@ -24,9 +26,9 @@ const reload = ({ address, setAddress, setMsg, setPosts }) => {
   setMsg('Loading');
 
   if (address.match(/^\/r/i)) {
-    address = 'https://www.reddit.com' + address;
+    address = homeAddr + address;
     setAddress(address);
-  } else if (!address.match(/^https:\/\/www\.reddit\.com\//i)) {
+  } else if (!address.startsWith(homeAddrS)) {
     setMsg('Please enter a reddit URL');
     setPosts([]);
     return;
@@ -53,10 +55,10 @@ const addFun = compose(
       e.preventDefault();
       reload(props);
     },
-    home: ({ setAddress }) => e => {
+    home: props => e => {
       e.preventDefault();
-      setAddress(startAddr);
-      reload(arguments[0]);
+      props.setAddress(homeAddrS);
+      reload(props);
     },
     addressUpdater: ({ setAddress }) => e => {
       setAddress(e.target.value);

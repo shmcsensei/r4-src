@@ -9,11 +9,11 @@ import { AddressBar } from './components/addressBar';
 import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { fetchData } from './data';
 
-const homeAddr = 'https://www.reddit.com/';
+const startAddr = window.localStorage.address || 'https://www.reddit.com/';
 
 const withData = lifecycle({
   componentDidMount() {
-    fetchData(homeAddr + '.json').then(data => {
+    fetchData(startAddr + '.json').then(data => {
       this.props.setRefresh(false);
       this.props.setPosts(data);
     });
@@ -24,6 +24,7 @@ const reload = (address, setRefresh, setPosts) => {
   setRefresh('Loading');
   fetchData(address + '.json')
     .then(data => {
+      window.localStorage.address = address;
       setRefresh(false);
       setPosts(data);
     })
@@ -35,7 +36,7 @@ const reload = (address, setRefresh, setPosts) => {
 
 const addFun = compose(
   withState('posts', 'setPosts', []),
-  withState('address', 'setAddress', homeAddr),
+  withState('address', 'setAddress', startAddr),
   withState('refreshing', 'setRefresh', 'Loading'),
   withData,
   withHandlers({
@@ -45,8 +46,8 @@ const addFun = compose(
     },
     home: ({ setAddress, setRefresh, setPosts }) => e => {
       e.preventDefault();
-      setAddress(homeAddr);
-      reload(homeAddr, setRefresh, setPosts);
+      setAddress(startAddr);
+      reload(startAddr, setRefresh, setPosts);
     },
     addressUpdater: ({ setAddress }) => e => {
       setAddress(e.target.value);

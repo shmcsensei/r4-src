@@ -8,10 +8,10 @@ To view the output of this code please visit https://simonchong.github.io/r4/
 
 ## Code Reviews
 
-All code reviews are welcome and encouraged as this will help advance the code and the understanding of React and Recompose and its use.
+Comments on code or Code review are welcome and encouraged as this will help advance the code and the understanding of React and Recompose and its use.
 
 ## Building and Deploying
 
-Open a terminal in the repository root and run the following command in a bash/linux shell. You will need permission though unless you change the deployment location. 
+Open a terminal in the repository root and run the following command in a bash/linux shell. You will need permission though unless you change the deployment location.
 
 ```bash . ./utils/deploy.sh```

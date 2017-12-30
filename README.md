@@ -4,7 +4,7 @@ This projects is an example of React Recompose. The primary purpose of this proj
 
 ## Live Version
 
-To view the output of this code please visit https://simonchong.github.io/r4/
+To view the output of this code please visit https://shmcsensei.github.io/r4/
 
 ## Code Reviews
 

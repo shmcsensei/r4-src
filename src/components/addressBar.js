@@ -34,6 +34,7 @@ export const AddressBar = ({ home, refresh, address, addressUpdater }) => (
             placeholder="Reddit Address e.g '/r/reactjs' or 'https://www.reddit.com/r/reactjs/'"
             value={address}
             onChange={addressUpdater}
+            onKeyPress={e => (e.key === 'Enter' ? addressUpdater(e) : 0)}
           />
         </div>
       </form>

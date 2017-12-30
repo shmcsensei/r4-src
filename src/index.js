@@ -14,22 +14,31 @@ const startAddr = window.localStorage.address || 'https://www.reddit.com/';
 const withData = lifecycle({
   componentDidMount() {
     fetchData(startAddr + '.json').then(data => {
-      this.props.setRefresh(false);
+      this.props.setMsg(false);
       this.props.setPosts(data);
     });
   },
 });
 
-const reload = (address, setRefresh, setPosts) => {
-  setRefresh('Loading');
+const reload = ({ address, setAddress, setMsg, setPosts }) => {
+  setMsg('Loading');
+
+  if (address.match(/^\/r/i)) {
+    address = 'https://www.reddit.com' + address;
+    setAddress(address);
+  } else if (!address.match(/^https:\/\/www\.reddit\.com\//i)) {
+    setMsg('Please enter a reddit URL');
+    setPosts([]);
+    return;
+  }
   fetchData(address + '.json')
     .then(data => {
       window.localStorage.address = address;
-      setRefresh(false);
+      setMsg(false);
       setPosts(data);
     })
     .catch(reson => {
-      setRefresh('Error loading URL');
+      setMsg('Error loading URL');
       setPosts([]);
     });
 };
@@ -37,17 +46,17 @@ const reload = (address, setRefresh, setPosts) => {
 const addFun = compose(
   withState('posts', 'setPosts', []),
   withState('address', 'setAddress', startAddr),
-  withState('refreshing', 'setRefresh', 'Loading'),
+  withState('msg', 'setMsg', 'Loading'),
   withData,
   withHandlers({
-    refresh: ({ address, setRefresh, setPosts }) => e => {
+    refresh: props => e => {
       e.preventDefault();
-      reload(address, setRefresh, setPosts);
+      reload(props);
     },
-    home: ({ setAddress, setRefresh, setPosts }) => e => {
+    home: ({ setAddress }) => e => {
       e.preventDefault();
       setAddress(startAddr);
-      reload(startAddr, setRefresh, setPosts);
+      reload(arguments[0]);
     },
     addressUpdater: ({ setAddress }) => e => {
       setAddress(e.target.value);
@@ -61,28 +70,26 @@ const Msg = ({ msg }) => (
   </div>
 );
 
-const App = addFun(
-  ({ home, refresh, refreshing, posts, address, addressUpdater }) => {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="page-header">
-            <h1>
-              R4 <small>The React Reddit Recompose Reader</small>
-            </h1>
-          </div>
+const App = addFun(({ home, refresh, msg, posts, address, addressUpdater }) => {
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="page-header">
+          <h1>
+            R4 <small>The React Reddit Recompose Reader</small>
+          </h1>
         </div>
-        <AddressBar
-          home={home}
-          refresh={refresh}
-          address={address}
-          addressUpdater={addressUpdater}
-        />
-        {refreshing ? <Msg msg={refreshing} /> : <Posts posts={posts} />}
       </div>
-    );
-  },
-);
+      <AddressBar
+        home={home}
+        refresh={refresh}
+        address={address}
+        addressUpdater={addressUpdater}
+      />
+      {msg ? <Msg msg={msg} /> : <Posts posts={posts} />}
+    </div>
+  );
+});
 
 // ========================================
 ReactDOM.render(<App />, document.getElementById('root'));
